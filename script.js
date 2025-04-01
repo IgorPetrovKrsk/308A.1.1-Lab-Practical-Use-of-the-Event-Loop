@@ -58,4 +58,54 @@ const testArray = [
     [96, [97, 98, [99, 100]]]
 ];
 
-console.log(testArray);
+// simple recyrsion
+function flatArray(array) {
+    let tempArray = [];
+    for (let i = 0; i < array.length; i++) {
+        if (typeof array[i] == typeof 1) {
+            tempArray.push(array[i]);
+        } else {
+            tempArray.push(...flatArray(array[i]));
+        }
+    }
+    return tempArray;
+}
+
+let flattenArray = flatArray(testArray);
+console.log(flattenArray);
+
+
+function flatArrayTrampoline(array, tempArray = []) {
+    return function () {
+        if (array.length == 0) {
+            return tempArray;
+        }
+        const [head, ...tail] = array; //head is the first ellement of the array and tail is the other part of array
+        if (typeof head == typeof 1) {
+            tempArray.push(head);
+            return flatArrayTrampoline(tail, tempArray);
+        } else {
+            return flatArrayTrampoline([...head, ...tail], tempArray);
+        }
+    }
+}
+
+// Trampoline function
+let i=0;
+function trampoline(func, array) {
+    let result = func(array);
+    while (typeof result === 'function') {
+        result = result();
+        i++;
+        console.log (`trampoline ${i}`);
+    }
+    return result;
+}
+
+let flattenArray2 = trampoline(flatArrayTrampoline, testArray);
+console.log(flattenArray2);
+
+//Part 3: Deferred Execution
+
+
+
