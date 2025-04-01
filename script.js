@@ -105,7 +105,7 @@ function trampoline(func, array) {
 let flattenArray2 = trampoline(flatArrayTrampoline, testArray);
 console.log(flattenArray2);
 
-//Part 3: Deferred Execution
+
 
 
 
